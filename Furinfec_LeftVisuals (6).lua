@@ -3,7 +3,7 @@ local Library = loadstring(game:HttpGet(
 ))()
 
 local Window = Library:CreateWindow({
-    Title = "Character",
+    Title = "??? [Premium ✨]",
     Footer = "Basic v2",
     ToggleKeybind = Enum.KeyCode.RightControl,
 })
