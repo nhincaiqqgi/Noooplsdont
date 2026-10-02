@@ -3,7 +3,7 @@ local Library = loadstring(game:HttpGet(
 ))()
 
 local Window = Library:CreateWindow({
-    Title = "??? [Premium ✨]",
+    Title = "kPiannwu Premium ✨",
     Footer = "Basic v2",
     ToggleKeybind = Enum.KeyCode.RightControl,
 })
@@ -4605,3 +4605,527 @@ Auras:AddToggle("LockedDoorAura", {
         end)
     end,
 })
+--==================================================
+-- TAB 5 - AUTOMATION
+--==================================================
+
+local Tab5 = Window:AddTab("Automation", "zap")
+
+local Tab5Ladders = Tab5:AddLeftGroupbox("Ladders")
+local Tab5Anticheat = Tab5:AddLeftGroupbox("Anticheat")
+local Tab5Automation = Tab5:AddRightGroupbox("Automation")
+
+--==================================================
+-- SERVICES
+--==================================================
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+
+local SkillRemote = ReplicatedStorage
+    :WaitForChild("Remotes")
+    :WaitForChild("SkillRemote")
+
+local Knit = ReplicatedStorage
+    :WaitForChild("Packages")
+    :WaitForChild("_Index")
+    :WaitForChild("sleitnick_knit@1.4.7")
+    :WaitForChild("knit")
+
+--==================================================
+-- LADDER
+--==================================================
+
+-- Auto 25% Dame SSJB
+Tab5Ladders:AddToggle("Auto25DamageSSJB", {
+    Text = "Auto 25% Dame SSJB",
+    Default = false,
+
+    Callback = function(Value)
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+            while Library.Toggles.Auto25DamageSSJB.Value do
+
+                pcall(function()
+                    Knit
+                        :WaitForChild("Services")
+                        :WaitForChild("SkillManagerV2")
+                        :WaitForChild("RE")
+                        :WaitForChild("ExecuteSkill")
+                        :FireServer(
+                            "Weapons_14_2",
+                            {},
+                            1
+                        )
+                end)
+
+                task.wait(0.1)
+            end
+        end)
+    end,
+})
+
+-- Auto Claim Day Gift
+Tab5Ladders:AddToggle("AutoClaimDayGift", {
+    Text = "Auto Claim Day Gift",
+    Default = false,
+
+    Callback = function(Value)
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            local ClaimDay = Knit
+                :WaitForChild("Services")
+                :WaitForChild("LoginRewardsService")
+                :WaitForChild("RF")
+                :WaitForChild("ClaimDay")
+
+            while Library.Toggles.AutoClaimDayGift.Value do
+
+                pcall(function()
+                    ClaimDay:InvokeServer()
+                end)
+
+                task.wait(2)
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- ANTICHEAT
+--==================================================
+
+-- Anti Teleport
+Tab5Anticheat:AddToggle("AntiTeleport", {
+    Text = "Anti Teleport",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            local Character = LocalPlayer.Character
+            local Root = Character
+                and Character:FindFirstChild("HumanoidRootPart")
+
+            if not Root then
+                return
+            end
+
+            local LockedCFrame = Root.CFrame
+
+            Library:Notify({
+                Title = "Anti Teleport",
+                Description = "Đã khóa vị trí hiện tại.",
+                Time = 3
+            })
+
+            while Library.Toggles.AntiTeleport.Value do
+
+                Character = LocalPlayer.Character
+                Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Root then
+                    Root.CFrame = LockedCFrame
+                    Root.AssemblyLinearVelocity = Vector3.zero
+                    Root.AssemblyAngularVelocity = Vector3.zero
+                end
+
+                task.wait()
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- BEAST
+--==================================================
+
+Tab5Anticheat:AddToggle("Beast", {
+    Text = "Beast",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            while Library.Toggles.Beast.Value do
+
+                local Camera = workspace.CurrentCamera
+
+                local Character = LocalPlayer.Character
+                local Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Root and Camera then
+
+                    local args = {
+                        [1] = {
+                            ["Camera"] = Camera.CFrame,
+                            ["SkillId"] = "8",
+                            ["Began"] = true,
+                            ["CFrame"] = Root.CFrame,
+                            ["Typ\208\181"] = 1,
+                            ["Aim"] =
+                                Root.Position
+                                + Camera.CFrame.LookVector * 100
+                        }
+                    }
+
+                    pcall(function()
+                        SkillRemote:FireServer(unpack(args))
+                    end)
+                end
+
+                task.wait(0.1)
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- AUTOMATION RIGHT
+--==================================================
+
+-- Fusion
+Tab5Automation:AddToggle("Fusion", {
+    Text = "Fusion",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            while Library.Toggles.Fusion.Value do
+
+                local Camera = workspace.CurrentCamera
+
+                local Character = LocalPlayer.Character
+                local Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Root and Camera then
+
+                    local args = {
+                        [1] = {
+                            ["Camera"] = Camera.CFrame,
+                            ["SkillId"] = "9",
+                            ["Toggle"] = true,
+                            ["Began"] = true,
+                            ["CFrame"] = Root.CFrame,
+                            ["Typ\208\181"] = 1,
+                            ["Aim"] =
+                                Root.Position
+                                + Camera.CFrame.LookVector * 100
+                        }
+                    }
+
+                    pcall(function()
+                        SkillRemote:FireServer(unpack(args))
+                    end)
+                end
+
+                task.wait(2)
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- GRAVITY
+--==================================================
+
+Tab5Automation:AddSlider("Gravity", {
+    Text = "Gravity",
+    Default = 196,
+    Min = 0,
+    Max = 500,
+    Rounding = 0,
+
+    Callback = function(Value)
+        workspace.Gravity = Value
+    end,
+})
+
+--==================================================
+-- JUMP POWER
+--==================================================
+
+Tab5Automation:AddSlider("JumpPower5", {
+    Text = "JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 300,
+    Rounding = 0,
+
+    Callback = function(Value)
+
+        local Character = LocalPlayer.Character
+        local Humanoid = Character
+            and Character:FindFirstChildOfClass("Humanoid")
+
+        if Humanoid then
+            Humanoid.UseJumpPower = true
+            Humanoid.JumpPower = Value
+        end
+    end,
+})
+
+--==================================================
+-- AUTO FARM BLOCK
+--==================================================
+
+Tab5Automation:AddToggle("AutoFarmBlock", {
+    Text = "Auto Farm Block",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            while Library.Toggles.AutoFarmBlock.Value do
+
+                local Camera = workspace.CurrentCamera
+
+                local Character = LocalPlayer.Character
+                local Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Root and Camera then
+
+                    local args = {
+                        [1] = {
+                            ["Camera"] = Camera.CFrame,
+                            ["SkillId"] = "6",
+                            ["Began"] = true,
+                            ["CFrame"] = Root.CFrame,
+                            ["Typ\208\181"] = 1,
+                            ["Aim"] =
+                                Root.Position
+                                + Camera.CFrame.LookVector * 50
+                        }
+                    }
+
+                    pcall(function()
+                        SkillRemote:FireServer(unpack(args))
+                    end)
+                end
+
+                task.wait(0.1)
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- USE KICK WARN
+--==================================================
+
+Tab5Automation:AddToggle("UseKickWarn", {
+    Text = "Use Kick Warn",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        task.spawn(function()
+
+            local LockedCFrame =
+                CFrame.new(
+                    1286.55933,
+                    365.975159,
+                    -2696.85645,
+                    1, 0, 0,
+                    0, 1, 0,
+                    0, 0, 1
+                )
+
+            Library:Notify({
+                Title = "Kick Warn",
+                Description = "Đã khóa vị trí.",
+                Time = 3
+            })
+
+            while Library.Toggles.UseKickWarn.Value do
+
+                local Character = LocalPlayer.Character
+                local Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Root then
+                    Root.CFrame = LockedCFrame
+                    Root.AssemblyLinearVelocity = Vector3.zero
+                    Root.AssemblyAngularVelocity = Vector3.zero
+                end
+
+                task.wait()
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- AUTO DON'T USE 😭 DUNGEON ATOM
+--==================================================
+
+local DungeonAtomStopped = false
+
+Tab5Automation:AddToggle("DontUseDungeonAtom", {
+    Text = "Auto don't use 😭 dungeon atom",
+    Default = false,
+
+    Callback = function(Value)
+
+        if not Value then
+            return
+        end
+
+        if DungeonAtomStopped then
+            Library.Toggles.DontUseDungeonAtom:SetValue(false)
+
+            Library:Notify({
+                Title = "Dungeon Atom",
+                Description = "Đã dừng vĩnh viễn vì Atom Max đã biến mất.",
+                Time = 4
+            })
+
+            return
+        end
+
+        task.spawn(function()
+
+            while Library.Toggles.DontUseDungeonAtom.Value do
+
+                local EventMobs =
+                    workspace:FindFirstChild("World Mobs")
+                    and workspace["World Mobs"]:FindFirstChild("Event Mobs")
+
+                local AtomMax =
+                    EventMobs
+                    and EventMobs:FindFirstChild("Atom Max")
+
+                -- Atom Max biến mất = DỪNG VĨNH VIỄN
+                if not AtomMax then
+
+                    DungeonAtomStopped = true
+
+                    pcall(function()
+                        Library.Toggles.DontUseDungeonAtom:SetValue(false)
+                    end)
+
+                    Library:Notify({
+                        Title = "Dungeon Atom",
+                        Description = "Atom Max đã biến mất → Auto đã dừng.",
+                        Time = 4
+                    })
+
+                    break
+                end
+
+                -- Skill 116 BEGIN
+                local Camera = workspace.CurrentCamera
+                local Character = LocalPlayer.Character
+                local Root = Character
+                    and Character:FindFirstChild("HumanoidRootPart")
+
+                if Camera and Root then
+
+                    local argsBegin = {
+                        [1] = {
+                            ["Camera"] = Camera.CFrame,
+                            ["SkillId"] = "116",
+                            ["Began"] = true,
+                            ["CFrame"] = Root.CFrame,
+                            ["Typ\208\181"] = 1,
+                            ["Aim"] =
+                                Root.Position
+                                + Camera.CFrame.LookVector * 100
+                        }
+                    }
+
+                    pcall(function()
+                        SkillRemote:FireServer(unpack(argsBegin))
+                    end)
+
+                    task.wait(0.05)
+
+                    -- Skill 116 END
+                    argsBegin[1]["Began"] = false
+
+                    pcall(function()
+                        SkillRemote:FireServer(unpack(argsBegin))
+                    end)
+                end
+
+                -- Auto damage Atom Max
+                pcall(function()
+
+                    local Humanoid =
+                        AtomMax:FindFirstChildOfClass("Humanoid")
+                        or AtomMax:FindFirstChild("Humanoid")
+
+                    if Humanoid and Humanoid.Health > 0 then
+                        Humanoid.Health =
+                            Humanoid.Health - 99999999999
+                    end
+                end)
+
+                task.wait(1.6)
+            end
+        end)
+    end,
+})
+
+--==================================================
+-- RESET CHARACTER HANDLING
+--==================================================
+
+LocalPlayer.CharacterAdded:Connect(function(Character)
+
+    task.wait(0.5)
+
+    local Humanoid =
+        Character:FindFirstChildOfClass("Humanoid")
+
+    if Humanoid then
+        Humanoid.UseJumpPower = true
+
+        local JumpValue =
+            Library.Options.JumpPower5
+            and Library.Options.JumpPower5.Value
+
+        if JumpValue then
+            Humanoid.JumpPower = JumpValue
+        end
+    end
+end)
